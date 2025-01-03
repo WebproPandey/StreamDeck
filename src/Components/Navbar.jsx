@@ -11,7 +11,7 @@ const Navbar = () => {
 
         <div className="MainLogo flex gap-2 justify-center items-center">
           <div className="logoimg h-full w-10">
-            <img src={mainlogo} alt="" srcset="" />
+            <img src={mainlogo} alt="" />
           </div>
           <div>
             <h1 className="font-bold text-lg uppercase tracking-tighter text-white shadow-md">
@@ -41,7 +41,7 @@ const Navbar = () => {
         </div>
         <div className="h-fit   flex justify-center  items-center  ">
         <div className="Profile rounded-full h-10 w-10  overflow-hidden">
-            <img src={mainlogo} alt="" srcset="" />
+            <img src={mainlogo} alt=""  />
         </div>
         </div>
       </div>

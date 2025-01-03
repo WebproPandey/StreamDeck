@@ -1,109 +1,119 @@
-import React from 'react'
+import React from "react";
 
 const Sidebar = () => {
+  const menuItems = [
+    { icon: "ri-home-4-line", label: "Home" },
+    { icon: "ri-slideshow-3-line", label: "Shorts" },
+    { icon: "ri-tv-2-line", label: "Subscription" },
+  ];
+
+  const youSectionItems = [
+    { icon: "ri-arrow-right-s-line", label: "You", extraIcon: true },
+    { icon: "ri-eye-line", label: "History" },
+    { icon: "ri-play-list-2-line", label: "Playlist" },
+    { icon: "ri-movie-line", label: "Your Video" },
+    { icon: "ri-time-line", label: "Watch later" },
+    { icon: "ri-thumb-up-line", label: "Like video" },
+  ];
+  const exploreSectionItems = [
+    { icon: null, label: "Explore" },
+    { icon: "ri-fire-line", label: "Trending" },
+    { icon: "ri-music-line", label: "Music" },
+    { icon: "ri-movie-line", label: "Films" },
+    { icon: "ri-graduation-cap-line", label: "Course" },
+    { icon: "ri-live-line", label: "Live" },
+    { icon: "ri-gamepad-line", label: "Gaming" },
+    { icon: "ri-file-list-3-line", label: "News" },
+    { icon: "ri-trophy-line", label: "Sport" },
+  ];
+  const settings = [
+    { icon: "ri-settings-4-line", text: "Setting" },
+    { icon: "ri-flag-line", text: "Report history" },
+    { icon: "ri-questionnaire-line", text: "Help" },
+    { icon: "ri-feedback-line", text: "Send Feedback" },
+  ];
   return (
     <div className="sidebar w-[20%]   px-4 py-4 h-[calc(100vh-10vh)] overflow-y-scroll relative">
-      <div className='Main flex flex-col  gap-1 pb-3 '>
+      <div className="Main flex flex-col  gap-1 pb-3 ">
         <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-200/10 bg-slate-200/20 delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-home-4-line text-2xl"></i>
-          <span className='text-md font-medium'>Home</span>
+          <i className="ri-home-4-line text-2xl"></i>
+          <span className="text-md font-medium">Home</span>
         </div>
         <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-slideshow-3-line text-2xl"></i>
-          <span className='text-md font-medium'>Shorts</span>
+          <i className="ri-slideshow-3-line text-2xl"></i>
+          <span className="text-md font-medium">Shorts</span>
         </div>
         <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-tv-2-line text-2xl"></i>
-          <span className='text-md font-medium'>Subscription</span>
+          <i className="ri-tv-2-line text-2xl"></i>
+          <span className="text-md font-medium">Subscription</span>
         </div>
       </div>
-      <div className='You flex flex-col  gap-1 border-t  py-2'>
-        <div className="flex justify-start gap-2 items-center w-full text-white hover:bg-slate-200/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-          <span className='text-md font-medium'>You</span>
-          <i className="ri-arrow-right-s-line text-2xl"></i>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-eye-line text-2xl"></i>
-          <span className='text-md font-medium'>History</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-play-list-2-line text-2xl"></i>
-          <span className='text-md font-medium'>Playlist</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-movie-line text-2xl"></i>
-          <span className='text-md font-medium'>Your Video</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-time-line  text-2xl"></i>
-          <span className='text-md font-medium'>Watch later</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-thumb-up-line text-2xl"></i>
-          <span className='text-md font-medium'>Like video</span>
-        </div>
-
+      <div className="You flex flex-col gap-1 border-t py-2">
+        {youSectionItems.map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-200/10 delay-75 ease-linear transition-transform rounded-lg py-1 px-2"
+          >
+            {item.extraIcon ? (
+              <>
+                <span className="text-md font-medium">{item.label}</span>
+                <i className={`${item.icon} text-2xl`}></i>
+              </>
+            ) : (
+              <>
+                <i className={`${item.icon} text-2xl`}></i>
+                <span className="text-md font-medium">{item.label}</span>
+              </>
+            )}
+          </div>
+        ))}
       </div>
-      <div className='Explore flex flex-col  gap-1 border-t  py-2'>
-        <div className="flex justify-start gap-2 items-center w-full text-white  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-          <span className='text-md font-medium'>Explore</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-fire-line text-2xl"></i>
-          <span className='text-md font-medium'>Trending</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-music-line text-2xl"></i>
-          <span className='text-md font-medium'>Music</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-movie-line  text-2xl"></i>
-          <span className='text-md font-medium'>Films</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-graduation-cap-line text-2xl"></i>
-          <span className='text-md font-medium'>Course</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-live-line text-2xl"></i>
-          <span className='text-md font-medium'>Live</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-gamepad-line text-2xl"></i>
-          <span className='text-md font-medium'>Gaming</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-file-list-3-line text-2xl"></i>
-          <span className='text-md font-medium'>News</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-trophy-line text-2xl"></i>
-          <span className='text-md font-medium'>Sport</span>
-        </div>
-
+      <div className="Explore flex flex-col gap-1 border-t py-2">
+        {exploreSectionItems.map((item, index) => (
+          <div
+            key={index}
+            className={`flex justify-start gap-4 items-center w-full text-white ${
+              item.icon ? "hover:bg-slate-100/10" : ""
+            } delay-75 ease-linear transition-transform rounded-lg py-1 px-2`}
+          >
+            {item.icon && <i className={`${item.icon} text-2xl`}></i>}
+            <span className="text-md font-medium">{item.label}</span>
+          </div>
+        ))}
       </div>
-      <div className='Setting flex flex-col  gap-1 border-t  py-2'>
-        
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-settings-4-line text-2xl"></i>
-          <span className='text-md font-medium'>Setting</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-flag-line text-2xl"></i>
-          <span className='text-md font-medium'>Report history</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-questionnaire-line text-2xl"></i>
-          <span className='text-md font-medium'>Help</span>
-        </div>
-        <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10  delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
-         <i className="ri-feedback-line text-2xl"></i>
-          <span className='text-md font-medium'>Send Feedback</span>
+      <div className="Setting flex flex-col gap-1 border-t py-2">
+        {settings.map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10 delay-75 ease-linear transition-transform rounded-lg py-1 px-2"
+          >
+            <i className={`${item.icon} text-2xl`}></i>
+            <span className="text-md font-medium">{item.text}</span>
+          </div>
+        ))}
+      </div>
+      <div className="Main flex flex-col  gap-4 pb-3 border-t py-2 px-2">
+        <div className="text-white text-sm leading-[0.5rem] font-normal flex flex-wrap gap-2">
+          <span className="flex-shrink-0 cursor-pointer ">About</span>
+          <span className="flex-shrink-0 cursor-pointer ">Press</span>
+          <span className="flex-shrink-0 cursor-pointer ">Copyright</span>
+          <span className="flex-shrink-0 cursor-pointer ">Contact us</span>
+          <span className="flex-shrink-0 cursor-pointer ">Creators</span>
+          <span className="flex-shrink-0 cursor-pointer ">Advertise</span>
+          <span className="flex-shrink-0 cursor-pointer ">Developers</span>
         </div>
 
+        <div className="text-white text-sm leading-[0.5rem] font-normal flex flex-wrap gap-2">
+          <span className="flex-shrink-0 cursor-pointer ">Terms</span>
+          <span className="flex-shrink-0 cursor-pointer ">Privacy</span>
+          <span className="flex-shrink-0 cursor-pointer ">Polic & Safety</span>
+          <span className="flex-shrink-0 cursor-pointer ">How YouTube Works</span>
+          <span className="flex-shrink-0 cursor-pointer ">Test new Features</span>
+        </div>
+        <div className="text-[0.8rem] text-[#888]">&copy; 2025  Goggle LLC</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
