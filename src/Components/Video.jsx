@@ -4,10 +4,11 @@ import Time from '../loader/Time';
 import { abbreviateNumber } from 'js-abbreviation-number';
 
 const Video = ({video}) => {
+  
     
   return (
     <div className='flex '>
-        <Link to={`/video/${video?.videoID}`}>
+        <Link to={`/video/${video?.videoId}`}>
            <div className='flex flex-col'>
              <div className='h-48 md:h-42 rounded-xl hover:rounded-none duration-200  overflow-hidden relative bg-transparent'>
                 <img className='h-full w-full' src={video?.thumbnails[0]?.url} alt="" />
