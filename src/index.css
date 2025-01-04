@@ -13,6 +13,20 @@
     border-radius: 8px; 
     border: none;
   }
+  .Listitmes::-webkit-scrollbar {
+    width: 8px; 
+    height:10px;
+  }
+  
+  .Listitmes::-webkit-scrollbar-thumb {
+    background-color: #333; 
+    border-radius: 8px; 
+    border: none;
+  }
+  .ContentWraper::-webkit-scrollbar{
+    display: none;
+  }
+  
   
  
   

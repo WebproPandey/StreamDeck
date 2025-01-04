@@ -14,8 +14,8 @@ const AuthProvider = ({children}) => {
 
   const fetchAlldata =(query) =>{
     setLoading(true)
-    fetchdata(`search/?q=${query}`).then((res) =>{
-        setData(res)
+    fetchdata(`search/?q=${query}`).then(({contents}) =>{
+        setData(contents)
         setLoading(false)
     })
  
