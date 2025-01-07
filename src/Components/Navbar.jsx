@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import mainlogo from "../assets/StreamDeck.webp";
+import { useAuth } from "../Context/AuthProvider";
 
 const Navbar = () => {
+
+  const  {setQuery} = useAuth()
+  const [searchTerm, setSearchTerm] = useState(''); 
+
+  const handleSearch = () => {
+    setQuery(searchTerm); 
+  };
+  
   return (
     <div className="w-full  flex justify-between h-[10vh] bg-slate-200/20 px-6">
       <div className="leftside flex items-center gap-2 w-fit h-full ">
@@ -22,9 +31,14 @@ const Navbar = () => {
       </div>
       <div className="SerachSide flex items-center gap-2 w-[50%] h-full ">
         <div className="searchbox w-full  flex  rounded-full  overflow-hidden py-1 ">
-         <input type="search" placeholder="Search" className="pl-4 outline-none  w-full rounded-tl-full border-[#bdbdbd] border rounded-bl-full py-2 "  />
-        <div className="menu bg-slate-300 px-6 py-2 cursor-pointer  rounded-tr-full rounded-br-full border border-l-nonre border-[#bdbdbd] ">
-           <i className="ri-search-line text-lg"></i>
+        <input
+            type="search"
+            placeholder="Search"
+            className="pl-4 outline-none w-full rounded-tl-full border-[#bdbdbd] border rounded-bl-full py-2"
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />        <div className="menu bg-slate-300 px-6 py-2 cursor-pointer  rounded-tr-full rounded-br-full border border-l-nonre border-[#bdbdbd] ">
+           <i onClick={handleSearch} className="ri-search-line text-lg"></i>
         </div>
 
          </div>

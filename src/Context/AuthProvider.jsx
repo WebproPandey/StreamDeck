@@ -1,33 +1,36 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { fetchdata } from '../utils/rapidapi'
-import { useContext } from 'react'
-export  const  AuthContext =  createContext()
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { fetchdata } from '../utils/Youtubeapi';
 
-const AuthProvider = ({children}) => {
-  const [loading , setLoading] =  useState(false)
-  const [value , setValue] = useState("New")
-  const [data , setData] = useState([])
+export const AuthContext = createContext();
 
-  useEffect(() =>{
-    fetchAlldata(value)
-  },[value])
+const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState('');
+  const [data, setData] = useState([]);
 
-  const fetchAlldata =(query) =>{
-    setLoading(true)
-    fetchdata(`search/?q=${query}`).then(({contents}) =>{       
-        setData(contents)
-        setLoading(false)
-    })
- 
-  }
-  
+  useEffect(() => {
+    fetchAllData(value);
+  }, [value]);
+
+  const fetchAllData = async (query) => {
+    setLoading(true);
+    try {
+      const result = await fetchdata(`search?part=snippet&type=video&q=${query}&maxResults=1`);
+      setData(result.items);
+    } catch (error) {
+      console.error('Error in fetchAllData:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ loading , data , value, setValue }}>
+    <AuthContext.Provider value={{ loading, data, value, setValue }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default AuthProvider
+export const useAuth = () => useContext(AuthContext);
 
-export  const  useAuth = () =>useContext(AuthContext) 
+export default AuthProvider;
