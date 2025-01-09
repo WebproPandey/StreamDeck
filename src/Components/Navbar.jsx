@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import mainlogo from "../assets/StreamDeck.webp";
-import { useAuth } from "../Context/AuthProvider";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
 
-  const  {setQuery} = useAuth()
-  const [searchTerm, setSearchTerm] = useState(''); 
+ 
+  const user = useSelector((state) => state.auth.user);
 
-  const handleSearch = () => {
-    setQuery(searchTerm); 
-  };
-  
+
   return (
-    <div className="w-full  flex justify-between h-[10vh] bg-slate-200/20 px-6">
-      <div className="leftside flex items-center gap-2 w-fit h-full ">
-        <div className="menu bg-slate-300 rounded-full px-2  py-1 ">
+    <div className="w-full flex justify-between h-[10vh] bg-slate-200/20 px-6">
+      <div className="leftside flex items-center gap-2 w-fit h-full">
+        <Link to="/" className="menu bg-slate-300 rounded-full px-2 py-1 ">
           <i className="ri-menu-line text-lg"></i>
-        </div>
-
+        </Link>
         <div className="MainLogo flex gap-2 justify-center items-center">
           <div className="logoimg h-full w-10">
             <img src={mainlogo} alt="" />
@@ -29,35 +26,39 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="SerachSide flex items-center gap-2 w-[50%] h-full ">
-        <div className="searchbox w-full  flex  rounded-full  overflow-hidden py-1 ">
-        <input
+      <div className="SearchSide flex items-center gap-2 w-[50%] h-full ">
+        <div className="searchbox w-full flex rounded-full overflow-hidden py-1 ">
+          <input
             type="search"
             placeholder="Search"
             className="pl-4 outline-none w-full rounded-tl-full border-[#bdbdbd] border rounded-bl-full py-2"
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
-          />        <div className="menu bg-slate-300 px-6 py-2 cursor-pointer  rounded-tr-full rounded-br-full border border-l-nonre border-[#bdbdbd] ">
-           <i onClick={handleSearch} className="ri-search-line text-lg"></i>
+          
+          />
+          <div className="menu bg-slate-300 px-6 py-2 cursor-pointer rounded-tr-full rounded-br-full border border-l-none border-[#bdbdbd] ">
+            <i  className="ri-search-line text-lg"></i>
+          </div>
         </div>
-
-         </div>
-         <div className="Mic hover:bg-slate-300 px-2 border border-[#222] delay-75 ease-linear py-1 cursor-pointer  rounded-full   ">
-           <i className="ri-mic-2-line text-lg"></i>
+        <div className="Mic hover:bg-slate-300 px-2 border border-[#222] delay-75 ease-linear py-1 cursor-pointer rounded-full ">
+          <i className="ri-mic-2-line text-lg"></i>
         </div>
       </div>
-      <div className="rightside flex items-center justify-end gap-2 w-fit h-full  ">
-        <div className="menu bg-slate-300 rounded-full px-2  py-1 ">
-         <i className="ri-video-add-line text-lg"></i>
+        <div className="suggestions-list absolute bg-white border shadow-md rounded-md w-[50%] max-h-60 overflow-auto">
+        
         </div>
-        <div className="menu hover:bg-slate-300  border border-[#222] delay-75 ease-linear rounded-full px-2  py-1 ">
-         <i className="ri-notification-4-fill text-lg"></i>
+      <div className="rightside flex items-center justify-end gap-2 w-fit h-full ">
+        <div className="menu bg-slate-300 rounded-full px-2 py-1 ">
+          <i className="ri-video-add-line text-lg"></i>
         </div>
-        <div className="h-fit   flex justify-center  items-center  ">
-        <div className="Profile rounded-full h-10 w-10  overflow-hidden">
-            <img src={mainlogo} alt=""  />
+        <div className="menu hover:bg-slate-300 border border-[#222] delay-75 ease-linear rounded-full px-2 py-1 ">
+          <i className="ri-notification-4-fill text-lg"></i>
         </div>
-        </div>
+        {user && (
+          <div className="h-fit flex justify-center items-center">
+            <div className="Profile rounded-full h-10 w-10 overflow-hidden">
+              <img src={user.photoURL || mainlogo} alt="Profile" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

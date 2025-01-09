@@ -1,6 +1,23 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from '../reudux/action/auth.action';
 
 const Sidebar = () => {
+  const dispatch =  useDispatch()
+  const navigate =  useNavigate()
+
+  const handlelogout = () =>{
+     dispatch(logout())
+         .then(() => {
+           navigate("/");
+         })
+         .catch((error) => {
+           console.error('Login failed:', error);
+  });
+  }
+
+
   const menuItems = [
     { icon: "ri-home-4-line", label: "Home" },
     { icon: "ri-slideshow-3-line", label: "Shorts" },
@@ -33,7 +50,7 @@ const Sidebar = () => {
     { icon: "ri-feedback-line", text: "Send Feedback" },
   ];
   return (
-    <div className="sidebar w-[20%]   px-4 py-4 h-[calc(100vh-10vh)] overflow-y-scroll relative">
+    <div className="sidebar w-[20%]   px-4 py-4 h-[calc(100vh-10vh)] overflow-y-scroll relative ">
       <div className="Main flex flex-col  gap-1 pb-3 ">
         <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-200/10 bg-slate-200/20 delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
           <i className="ri-home-4-line text-2xl"></i>
@@ -83,14 +100,23 @@ const Sidebar = () => {
       </div>
       <div className="Setting flex flex-col gap-1 border-t py-2">
         {settings.map((item, index) => (
+          <>
           <div
             key={index}
             className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10 delay-75 ease-linear transition-transform rounded-lg py-1 px-2"
-          >
+            >
             <i className={`${item.icon} text-2xl`}></i>
             <span className="text-md font-medium">{item.text}</span>
           </div>
+         
+           </>
         ))}
+          <div onClick={handlelogout}
+           className="flex justify-start gap-4  cursor-pointer items-center w-full text-white hover:bg-slate-100/10 delay-75 ease-linear transition-transform rounded-lg py-1 px-2"
+           >
+           <i className="ri-logout-box-r-line text-2xl"></i>
+           <span className="text-md font-medium">Logout</span>
+         </div>
       </div>
       <div className="Main flex flex-col  gap-4 pb-3 border-t py-2 px-2">
         <div className="text-white text-sm leading-[0.5rem] font-normal flex flex-wrap gap-2">

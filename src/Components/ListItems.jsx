@@ -12,7 +12,7 @@ const ListItems = () => {
 
       
   return (
-    <div className='Listitmes w-full flex overflow-x-auto gap-2  py-2 ml-2'>
+    <div className='Listitmes  bg-[#222] w-full flex overflow-x-auto gap-2  py-2 ml-2 sticky z-[9] top-0'>
         {youtubeCategories.map((categories , index) => {
             return <div key={index}  className='flex-shrink-0 px-4 hover:bg-gray-200/20 text-white rounded-full'>{categories}</div>
         })}
