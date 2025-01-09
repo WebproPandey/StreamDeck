@@ -15,31 +15,48 @@ const Video = ({ video }) => {
       publishedAt,
       thumbnails: { medium },
     },
-    statistics: { viewCount },
-    contentDetails: { duration },
+  
   } = video;
 
-  const formattedDuration = moment
-  .utc(moment.duration(duration).asMilliseconds())
-  .format("mm:ss")
+  const [views, setViews] = useState(null)
+  const [duration, setDuration] = useState(null)
+  const [channelIcon, setChannelIcon] = useState(null)
 
-const [channelicon  , setChannelIcon] = useState(null)
+  const seconds = moment.duration(duration).asSeconds()
+  const _duration = moment.utc(seconds * 1000).format('mm:ss')
 
-  useEffect(() =>{
-    const  get_channel_icon = async ()=>{
-      const {
+  const _videoId = id?.videoId || id
+
+  useEffect(() => {
+    const get_video_details = async () => {
+       const {
+          data: { items },
+       } = await request('/videos', {
+          params: {
+             part: 'contentDetails,statistics',
+             id: _videoId,
+          },
+       })
+       setDuration(items[0].contentDetails.duration)
+       setViews(items[0].statistics.viewCount)
+    }
+    get_video_details()
+ }, [_videoId])
+
+ useEffect(() => {
+  const get_channel_icon = async () => {
+     const {
         data: { items },
-        } = await request('/channels',{
-          params:{
-             part:'snippet',
-             id:channelId
-          }
-        })
-        setChannelIcon(items[0].snippet.thumbnails.default)
-      }
-      get_channel_icon()
-  },[channelId])
-
+     } = await request('/channels', {
+        params: {
+           part: 'snippet',
+           id: channelId,
+        },
+     })
+     setChannelIcon(items[0].snippet.thumbnails.default)
+  }
+  get_channel_icon()
+}, [channelId])
 
 
   return (
@@ -49,12 +66,12 @@ const [channelicon  , setChannelIcon] = useState(null)
           <div className="h-48 md:h-42 rounded-xl hover:rounded-none duration-200 overflow-hidden relative bg-transparent">
             <img src={medium.url} className="h-full w-full object-cover"/>
               <span className="bottom-2 right-2 bg-[#333] text-white px-2 py-1 rounded-md absolute z-[2]">
-                {formattedDuration}
+                {_duration}
               </span>
           </div>
           <div className="videoDetails flex gap-4  text-white">
             <div className="videoChhanle flex justify-center  h-9 w-9 items-center  rounded-full  overflow-hidden relative pr-[2rem]">
-                 <img src={channelicon?.url} className="h-full w-full object-cover  absolute right-0 top-0" alt="" />
+                 <img src={channelIcon?.url} className="h-full w-full object-cover  absolute right-0 top-0" alt="" />
             </div>
            
           <div className="">
@@ -63,7 +80,7 @@ const [channelicon  , setChannelIcon] = useState(null)
               <span className=" text-sm">{channelTitle}</span>
             </div>
             <div className="flex  gap-2 items-center">
-              <span>{numeral(viewCount).format("0.a").toUpperCase()} views ●</span>
+              <span>{numeral(views).format('0.a')} Views •</span>
               <span className=" text-lg">{moment(publishedAt).fromNow()}</span>
             </div>
            </div>

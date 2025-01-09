@@ -6,7 +6,7 @@ import Loader from '../loader/Loader';
 import Navbar from './Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPopularVideos } from '../reudux/action/video.action';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 const ContentPage = () => {
   const dispatch = useDispatch();
   const { loading, videos, error } = useSelector((state) => state.HomeVideo);
@@ -14,10 +14,12 @@ const ContentPage = () => {
   useEffect(() => {
     dispatch(getPopularVideos());
   }, [dispatch]);
+  const loadFunc = () => {
+    dispatch(getPopularVideos());
+  };
 
   return (
     <>
-      {loading && <Loader />}
       <Navbar />
       <div className="w-full flex relative">
         <Sidebar />
@@ -28,10 +30,19 @@ const ContentPage = () => {
           ) : error ? (
             <div className="error">Error: {error}</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 p-5 w-full">
+            <div className="">
+              <InfiniteScroll
+               dataLength={videos.length}
+               loadMore={loadFunc}
+               hasMore={true || false}
+               loader={<div className="loader" key={0}><Loader/></div>}
+               className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 p-5 w-full'
+
+              >
               {videos.map((video) => (
                 <Video key={video.id} video={video} />
               ))}
+              </InfiniteScroll>
             </div>
           )}
         </div>

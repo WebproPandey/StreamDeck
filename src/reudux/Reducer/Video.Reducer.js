@@ -19,24 +19,33 @@ import {
           ...state,
           loading: true,
         };
-      case HOME_VIDEO_SUCCESS:
+  
+      case HOME_VIDEO_SUCCESS: {
+        const { videos: newVideos, category, nextPageToken } = action.payload;
         return {
           ...state,
           loading: false,
-          videos: action.payload.videos,
-          nextPageToken: action.payload.nextPageToken,
-          category: action.payload.category,
+          videos:
+            state.category === category
+              ? [...state.videos, ...newVideos] // Append videos if category matches
+              : newVideos, // Reset videos if category changes
+          nextPageToken,
+          category,
         };
+      }
+  
       case HOME_VIDEOS_FAIL:
         return {
           ...state,
           loading: false,
           error: action.payload,
         };
+  
       default:
         return state;
     }
   };
+  
   
   export default videoReducer;
   
