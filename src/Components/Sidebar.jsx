@@ -102,7 +102,7 @@ const Sidebar = () => {
         {settings.map((item, index) => (
           <>
           <div
-            key={index}
+            key={item.id}
             className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-100/10 delay-75 ease-linear transition-transform rounded-lg py-1 px-2"
             >
             <i className={`${item.icon} text-2xl`}></i>

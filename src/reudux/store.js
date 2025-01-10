@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore  } from "@reduxjs/toolkit";
 import authReducer from "./Reducer/auth.Reducer";
 import  videoReducer  from "./Reducer/Video.Reducer"
 
@@ -7,4 +7,9 @@ export const store = configureStore({
     auth: authReducer,
     HomeVideo: videoReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false, 
+      serializableCheck: false, 
+    }),
 });

@@ -1,10 +1,10 @@
 import {
-    HOME_VIDEOS_FAIL,
-    HOME_VIDEOS_REQUEST,
-    HOME_VIDEO_SUCCESS,
- } from '../actionType'
+   HOME_VIDEOS_FAIL,
+   HOME_VIDEOS_REQUEST,
+   HOME_VIDEO_SUCCESS,
+ } from '../actionType';
  
- import request from '../../utils/Youtubeapi'
+ import request from '../../utils/Youtubeapi';
  
  export const getPopularVideos = () => async (dispatch, getState) => {
    try {
@@ -12,29 +12,31 @@ import {
        type: HOME_VIDEOS_REQUEST,
      });
  
-     const { HomeVideo } = getState();
-     const nextPageToken = HomeVideo?.nextPageToken || '';
+     const pageToken = getState().HomeVideo.nextPageToken; // Get nextPageToken from Redux state
+     console.log("Page Token being used:", pageToken); // Log the value of pageToken
  
-     const { data } = await request('/videos', {
+     const { data } = await request("/videos", {
        params: {
-         part: 'snippet,contentDetails,statistics',
-         chart: 'mostPopular',
-         regionCode: 'IN',
+         part: "snippet,contentDetails,statistics",
+         chart: "mostPopular",
+         regionCode: "IN",
          maxResults: 20,
-         pageToken: nextPageToken,
+         pageToken: pageToken || "", // Use the token if it exists
        },
      });
+ 
+     console.log("API Response:", data); // Log the response to confirm the token works
  
      dispatch({
        type: HOME_VIDEO_SUCCESS,
        payload: {
          videos: data.items,
-         nextPageToken: data.nextPageToken,
-         category: 'All',
+         nextPageToken: data.nextPageToken || null, // Ensure token is updated
+         category: "All",
        },
      });
    } catch (error) {
-     console.error(error.message);
+     console.log(error.message);
      dispatch({
        type: HOME_VIDEOS_FAIL,
        payload: error.message,
@@ -42,37 +44,36 @@ import {
    }
  };
  
- export const getVideosByCategory = (keyword) => async (dispatch, getState) => {
-   try {
-      dispatch({
-         type: HOME_VIDEOS_REQUEST,
-      });
 
-      const nextPageToken = getState()?.HomeVideo?.nextPageToken || '';
+export const getVideosByCategory = keyword => async (dispatch, getState) => {
+  try {
+     dispatch({
+        type: HOME_VIDEOS_REQUEST,
+     })
+     const { data } = await request('/search', {
+        params: {
+           part: 'snippet',
 
-      const { data } = await request('/search', {
-         params: {
-            part: 'snippet',
-            maxResults: 20,
-            pageToken: nextPageToken, // Use the accessed token here
-            q: keyword,
-            type: 'video',
-         },
-      });
+           maxResults: 20,
+           pageToken: getState().HomeVideo.nextPageToken,
+           q: keyword,
+           type: 'video',
+        },
+     })
 
-      dispatch({
-         type: HOME_VIDEO_SUCCESS,
-         payload: {
-            videos: data.items,
-            nextPageToken: data.nextPageToken,
-            category: keyword,
-         },
-      });
-   } catch (error) {
-      console.error(error.message);
-      dispatch({
-         type: HOME_VIDEOS_FAIL,
-         payload: error.message,
-      });
-   }
-};
+     dispatch({
+        type:HOME_VIDEO_SUCCESS,
+        payload: {
+           videos: data.items,
+           nextPageToken: data.nextPageToken,
+           category: keyword,
+        },
+     })
+  } catch (error) {
+     console.log(error.message)
+     dispatch({
+        type: HOME_VIDEOS_FAIL,
+        payload: error.message,
+     })
+  }
+}

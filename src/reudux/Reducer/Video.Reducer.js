@@ -9,42 +9,49 @@ import {
     loading: false,
     error: null,
     nextPageToken: null,
-    category: 'All',
+    activeCategory: 'All',
   };
   
-  const videoReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case HOME_VIDEOS_REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-  
-      case HOME_VIDEO_SUCCESS: {
-        const { videos: newVideos, category, nextPageToken } = action.payload;
-        return {
-          ...state,
-          loading: false,
-          videos:
-            state.category === category
-              ? [...state.videos, ...newVideos] // Append videos if category matches
-              : newVideos, // Reset videos if category changes
-          nextPageToken,
-          category,
-        };
-      }
-  
-      case HOME_VIDEOS_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-  
-      default:
-        return state;
+  const videoReducer = (
+    state = {
+       videos: [],
+       loading: false,
+       nextPageToken: null,
+       activeCategory: 'All',
+    },
+    action
+ ) => {
+    const { type, payload } = action
+ 
+    switch (type) {
+       case HOME_VIDEO_SUCCESS:
+          return {
+             ...state,
+             videos:
+                state.activeCategory === payload.category
+                   ? [...state.videos, ...payload.videos]
+                   : payload.videos,
+ 
+             loading: false,
+             nextPageToken: payload.nextPageToken,
+             activeCategory: payload.category,
+          }
+ 
+       case HOME_VIDEOS_FAIL:
+          return {
+             ...state,
+             loading: false,
+             error: payload,
+          }
+       case HOME_VIDEOS_REQUEST:
+          return {
+             ...state,
+             loading: true,
+          }
+       default:
+          return state
     }
-  };
+ }
   
   
   export default videoReducer;
