@@ -5,6 +5,9 @@ const request  = axios.create({
   params: {
     key: import.meta.env.VITE_YOUTUBE_API_KEY,
   },
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
 
 export  default  request ;

@@ -1,5 +1,6 @@
 import React from 'react'
 import AppRoute from '../AppRoute/AppRoute'
+import Navbar from './Navbar'
 
 const Home = () => {
   

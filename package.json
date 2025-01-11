@@ -25,6 +25,7 @@
     "react-player": "^2.16.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
+    "react-show-more-text": "^1.7.1",
     "thunk": "^0.0.1"
   },
   "devDependencies": {

@@ -32,7 +32,7 @@ const ContentPage = () => {
       <Navbar />
       <div className="w-full flex relative">
         <Sidebar />
-        <div id="ContentWraper" className="ContentWraper h-[calc(100vh-10vh)] overflow-auto w-[80%]">
+        <div id="ContentWraper" className="ContentWraper h-[calc(100vh-10vh)] overflow-auto w-full md:w-[80%]">
           <ListItems/>
           <InfiniteScroll
             dataLength={videos.length} 

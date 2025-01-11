@@ -50,7 +50,7 @@ const Sidebar = () => {
     { icon: "ri-feedback-line", text: "Send Feedback" },
   ];
   return (
-    <div className="sidebar w-[20%]   px-4 py-4 h-[calc(100vh-10vh)] overflow-y-scroll relative ">
+    <div className="sidebar w-[20%]  hidden md:block   px-4 py-4 h-[calc(100vh-10vh)] overflow-y-scroll relative ">
       <div className="Main flex flex-col  gap-1 pb-3 ">
         <div className="flex justify-start gap-4 items-center w-full text-white hover:bg-slate-200/10 bg-slate-200/20 delay-75 ease-linear transition-transform rounded-lg py-1 px-2">
           <i className="ri-home-4-line text-2xl"></i>
