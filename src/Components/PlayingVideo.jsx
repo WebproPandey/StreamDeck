@@ -6,24 +6,27 @@ import numeral from "numeral";
 import moment from "moment";
 import  ShowMoreText from 'react-show-more-text'
 import { useParams } from "react-router-dom";
-import { getRelatedVideos, getVideoById } from "../reudux/action/video.action";
+import { getRelatedVideos, getVideoById, getVideosBySearch } from "../reudux/action/video.action";
 import { getChannelDetails } from "../reudux/action/channel.action";
-import { getCommentsVideoId } from "../reudux/action/Comments.action";
 import { comment } from "postcss";
 import Comments from "./Comments";
+import SkeletonVideo from "./Skeleton/SkeletonVideo";
 
 const PlayingVideo = () => {
 const dispatch = useDispatch()
   const {id} = useParams()
 
   useEffect(() =>{
+    if (id) {
     dispatch(getVideoById(id))
     dispatch(getRelatedVideos(id))
+  }
 
 } ,[dispatch , id])
 
 
 const {videos , loading:relaredVideoLoading} =  useSelector(state => state.relatedVideos)
+const {videos:SerachVideo , loading:SerachVideoLoading} =  useSelector(state => state.SerachVideo)
 
 
 
@@ -37,6 +40,7 @@ const {viewCount = 0,likeCount = 0,dislikeCount = 0,commentCount = 0,} = statist
 useEffect(() => {
   if (channelId) {
     dispatch(getChannelDetails(channelId))
+
   }
 }, [dispatch, channelId]);
 
@@ -53,8 +57,8 @@ const subscriberCount = channel?.statistics?.subscriberCount || "";
 
   return ( 
    
-    <div className="flex justify-center flex-row h-[calc(100%-56px)] w-full overflow-hidden relative">
-      <div className="w-full max-w-[1580px] flex flex-col lg:flex-row">
+    <div className=" flex justify-center flex-row h-[calc(100%-56px)] w-full   relative ">
+      <div className="PlayingVideoWraper w-full max-w-[1580px] flex flex-col overflow-y-scroll  lg:flex-row  pt-[10vh]  bg-red-500">
         <div className="flex flex-col lg:w-[calc(100%-350px)] px-4 py-3 lg:py-2">
           <div className="h-[200px] md:h-[500px] rounded-md bg-black">
             <ReactPlayer
@@ -88,7 +92,7 @@ const subscriberCount = channel?.statistics?.subscriberCount || "";
            </div>
            <div className="flex items-center justify-between gap-4 mt-4 border-y-2 py-2">
              <div className="flex gap-2 ">
-               <div className="bg-red-500 rounded-full  overflow-hidden">
+               <div className=" rounded-full  overflow-hidden">
                    <img src={channelLogo} alt=""  className="w-12 h-12 rounded-full"/>
                </div>
              <div>
@@ -134,9 +138,15 @@ const subscriberCount = channel?.statistics?.subscriberCount || "";
          )}
           
         </div>
-        {!loading && videos
-            ?.filter(video => video.snippet)
-           .map((video) => <SuggestedVideo key={video.id.videoId} videos={video}  />  )}
+        <div className="SuggestedVideoWraper flex flex-col justify-center gap-3 w-[350px]  h-screen  relative overflow-y-scroll items-center ">
+        {relaredVideoLoading
+            ? [...Array(15)].map((_, i) => <SkeletonVideo key={i} height={120} width="90%" />)
+            : videos
+                ?.filter((video) => video.snippet)
+                .map((video) => (
+                  <SuggestedVideo key={video.id.videoId || video.id} videos={video} />
+                ))}
+        </div>
         
       </div>
 

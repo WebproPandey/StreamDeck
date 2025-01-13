@@ -1,14 +1,17 @@
-import React from 'react'
-import AppRoute from '../AppRoute/AppRoute'
-import Navbar from './Navbar'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import AppRoute from '../AppRoute/AppRoute';
+import Navbar from './Navbar';
 
 const Home = () => {
-  
-  return (
-    <div className=" w-full  relative bg-[#222]">
-        <AppRoute/>
-    </div>
-  )
-}
+  const location = useLocation();
 
-export default Home
+  return (
+    <div className="w-full relative bg-[#222]">
+      {location.pathname !== '/' && <Navbar />}
+      <AppRoute />
+    </div>
+  );
+};
+
+export default Home;

@@ -8,7 +8,21 @@
     height:10px;
   }
   
-  .sidebar::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #333; 
+    border-radius: 8px; 
+    border: none;
+  }
+
+
+
+ 
+  .PlayingVideoWraper::-webkit-scrollbar {
+    width: 8px; 
+    height:10px;
+  }
+  
+.PlayingVideoWraper::-webkit-scrollbar-thumb {
     background-color: #333; 
     border-radius: 8px; 
     border: none;
@@ -24,6 +38,9 @@
     border: none;
   }
   .ContentWraper::-webkit-scrollbar{
+    display: none;
+  }
+  .SuggestedVideoWraper::-webkit-scrollbar{
     display: none;
   }
   

@@ -17,7 +17,7 @@ const AppRoute = () => {
             <ContentPage/>
           </ProtectedRoute>
          }/>  
-        <Route path='/search/:searchQuery' element={<Search/>}/>  
+        <Route path='/search/:query' element={<Search/>}/>  
         <Route path='/video/:id' element={<PlayingVideo/>}/>  
       </Routes>  
     </>

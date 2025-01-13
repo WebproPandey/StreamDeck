@@ -1,112 +1,109 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import request from "../utils/Youtubeapi";
 import moment from "moment";
 import numeral from "numeral";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useDispatch } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "../loader/Loader";
 
-const SuggestedVideo = ({ videos }) => {
+const SuggestedVideo = ({ search }) => {
+  const [videos, setVideos] = useState([]);
+  const [nextPageToken, setNextPageToken] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const [views, setViews] = useState(null)
-  const [duration, setDuration] = useState(null)
-  const [channelIcon, setChannelIcon] = useState(null)
-  
-  const seconds = moment.duration(duration).asSeconds();
-  const _duration = moment.utc(seconds * 1000).format("mm:ss");
-
-
-
-  const {
-    id,
-    snippet: {
-      channelId,
-      channelTitle,
-      description,
-      title,
-      publishedAt,
-      thumbnails,
-    },
-
-  } = videos;
-
+  const fetchVideos = async (token = null) => {
+    try {
+      setLoading(true);
+      const { data } = await request("/search", {
+        params: {
+          part: "snippet",
+          maxResults: 20,
+          q: search || "trending",
+          type: "video",
+          pageToken: token,
+        },
+      });
+      setVideos((prevVideos) => [...prevVideos, ...data.items]);
+      setNextPageToken(data.nextPageToken);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const get_video_details = async () => {
-       const {
-          data: { items },
-       } = await request('/videos', {
-          params: {
-             part: 'contentDetails,statistics',
-             id: id.videoId,
-          },
-       })
-       setDuration(items[0].contentDetails.duration)
-       setViews(items[0].statistics.viewCount)
+    fetchVideos(); 
+  }, [search]);
+
+  const fetchMoreVideos = () => {
+    if (nextPageToken) {
+      fetchVideos(nextPageToken);
     }
-    get_video_details()
- }, [id])
-
- useEffect(() => {
-  const get_channel_icon = async () => {
-     const {
-        data: { items },
-     } = await request('/channels', {
-        params: {
-           part: 'snippet',
-           id: channelId,
-        },
-     })
-     setChannelIcon(items[0].snippet.thumbnails.default)
-  }
-  get_channel_icon()
-}, [channelId])
-
-
-
-
+  };
 
   return (
-    <div className="flex   gap-3">
-      <div className="bg-gray-400/30   rounded-xl overflow-hidden ">
-        <Link to="" className="">
-          <div className="flex   flex-col w-[300px]">
-            <div className="h-48 md:h-42  rounded-xl hover:rounded-none duration-200 overflow-hidden relative bg-transparent">
-              <LazyLoadImage
-                src={thumbnails.medium.url}
-                effect="blur"
-                style={{ height: "100%", width: "100%" }}
-              />
-              <span className="bottom-2 right-0 bg-[#333] text-white px-2 py-1 rounded-md absolute z-[2]">
-                {_duration}
-              </span>
-            </div>
-            <div className="flex p-2 gap-2 items-start w-full bg-green-800 ">
-              <div className="h-9 w-9  bg-red-900">
-                <img src={channelIcon} alt="" />
-              </div>
-              <div className="info">
-                <h3 className="text-sm font-medium text-white line-clamp-2">
-                  {title}
-                </h3>
-                <div className="flex  gap-2 items-center">
-                  <span>{numeral(views).format("0.a")} Views •</span>
-                  <span className=" text-lg">
-                    {moment(publishedAt).fromNow()}
-                  </span>
+    <div className="w-full p-4">
+      <InfiniteScroll
+        dataLength={videos.length}
+        next={fetchMoreVideos}
+        hasMore={!!nextPageToken}
+        loader={<Loader />}
+        className="flex flex-wrap gap-4"
+      >
+        {videos.map((video, index) => {
+          const {
+            id,
+            snippet: {
+              channelId,
+              channelTitle,
+              description,
+              title,
+              publishedAt,
+              thumbnails,
+            },
+          } = video;
+
+          return (
+            <Link
+              key={index}
+              to={`/video/${id.videoId || id}`}
+              className="flex w-[300px] h-42 bg-gray-400/30 rounded-xl"
+            >
+              <div className="flex flex-col">
+                <div className="h-48 md:h-42 w-full rounded-xl hover:rounded-none duration-200 overflow-hidden relative bg-transparent">
+                  <LazyLoadImage
+                    src={thumbnails.medium.url}
+                    effect="blur"
+                    style={{ height: "100%", width: "100%" }}
+                  />
                 </div>
-                <div className="videoChhanle flex     overflow-hidden relative ">
-                  {/* <LazyLoadImage src={channelIcon?.url} className="h-full w-full object-cover  absolute right-0 top-0" /> */}
-                  <h1>{channelTitle}</h1>
+                <div className="flex p-2 gap-2 items-start w-full">
+                  <div className="videoChannel flex justify-center h-9 w-9 px-4 items-center rounded-full overflow-hidden relative">
+                    <LazyLoadImage
+                      src={thumbnails.default.url}
+                      alt="Channel Icon"
+                      className="h-full w-full object-cover absolute top-0  right-0"
+                    />
+                  </div>
+                  <div className="info">
+                    <h3 className="text-sm font-medium text-white line-clamp-2">
+                      {title}
+                    </h3>
+                    <div className="flex gap-2 items-center text-white leading-tight">
+                      <span>{moment(publishedAt).fromNow()}</span>
+                    </div>
+                    <div className="videoChannel text-white">
+                      <h1>{channelTitle}</h1>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </Link>
-      </div>
+            </Link>
+          );
+        })}
+      </InfiniteScroll>
     </div>
   );
 };

@@ -8,9 +8,6 @@ const SkeletonVideo = () => {
        <SkeletonTheme color='#343a40' highlightColor='#3c4147'>
           <Skeleton height={180} />
           <div>
-          {/* Circle skeleton */}
-          {/* <Skeleton circle height={40} width={40} /> */}
-          {/* Text skeleton */}
           <Skeleton height={40} width="100%" />
         </div>
        </SkeletonTheme>

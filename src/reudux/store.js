@@ -1,6 +1,6 @@
 import { configureStore  } from "@reduxjs/toolkit";
 import authReducer from "./Reducer/auth.Reducer";
-import  videoReducer ,{relatedVideoReducer, selectedVideoReducer }  from "./Reducer/Video.Reducer"
+import  videoReducer ,{relatedVideoReducer, selectedVideoReducer, SerachVideoReducer }  from "./Reducer/Video.Reducer"
 import { channelDetailsReducer } from "./Reducer/channel.Reducer";
 import { commentListReducer } from "./Reducer/Comment.Reducer";
 
@@ -11,7 +11,8 @@ export const store = configureStore({
     SelectedVideo :selectedVideoReducer,
     ChannelDetails :channelDetailsReducer,
     relatedVideos: relatedVideoReducer,
-    CommentList :commentListReducer
+    CommentList :commentListReducer,
+    SerachVideo:SerachVideoReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
