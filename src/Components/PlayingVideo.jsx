@@ -58,7 +58,7 @@ const subscriberCount = channel?.statistics?.subscriberCount || "";
   return ( 
    
     <div className=" flex justify-center flex-row h-[calc(100%-56px)] w-full   relative ">
-      <div className="PlayingVideoWraper w-full max-w-[1580px] flex flex-col overflow-y-scroll  lg:flex-row  pt-[10vh]  bg-red-500">
+      <div className="PlayingVideoWraper w-full max-w-[1580px] flex flex-col overflow-y-scroll  lg:flex-row  pt-[10vh] ">
         <div className="flex flex-col lg:w-[calc(100%-350px)] px-4 py-3 lg:py-2">
           <div className="h-[200px] md:h-[500px] rounded-md bg-black">
             <ReactPlayer
@@ -138,7 +138,7 @@ const subscriberCount = channel?.statistics?.subscriberCount || "";
          )}
           
         </div>
-        <div className="SuggestedVideoWraper flex flex-col justify-center gap-3 w-[350px]  h-screen  relative overflow-y-scroll items-center ">
+        <div className="SuggestedVideoWraper  flex flex-col justify-center gap-3 w-full px-3 md:px-0  md:w-[350px]  h-screen  relative overflow-y-scroll items-center ">
         {relaredVideoLoading
             ? [...Array(15)].map((_, i) => <SkeletonVideo key={i} height={120} width="90%" />)
             : videos
